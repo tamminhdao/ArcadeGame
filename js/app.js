@@ -97,20 +97,59 @@ var gem2 = new Gem (120, 275);
 var gem3 = new Gem (420, 25);
 allGems.push(gem1, gem2, gem3);
 
-//*************** Key to win ***********//
+var collectedGems = []; //coordinate of collected gems
+
+//*************** Key to reveal the star ***********//
 var Key = function (x,y){
     this.x = x;
     this.y = y;
-    this.width = 60;
-    this.height = 60;
+    this.width = 20;
+    this.height = 20;
     this.sprite = 'images/key.png';
 }
 
 Key.prototype.render = function() {
-    ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    if (collectedGems.length === 3) {
+        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    }
 };
 
-var key = new Key (10,20);
+var collectedKey = [];
+var key = new Key (30,30);
+
+//*************** Selector ***********//
+var Selector = function (x,y){
+    this.x = x;
+    this.y = y;
+    this.width = 40;
+    this.height = 40;
+    this.sprite = 'images/Selector.png';
+}
+
+Selector.prototype.render = function() {
+    if (collectedStar.length > 0){
+        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    }
+};
+
+var selector = new Selector (810,660);
+
+//*************** Star ***********//
+var Star = function (x,y){
+    this.x = x;
+    this.y = y;
+    this.width = 60;
+    this.height = 60;
+    this.sprite = 'images/Star.png';
+}
+
+Star.prototype.render = function() {
+    if (collectedKey.length > 0) {
+        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    }
+};
+var collectedStar = [];
+var star = new Star (620,10);
 
 //*************** Heart bonus ***********//
 var Heart = function (x,y){
@@ -127,6 +166,7 @@ Heart.prototype.render = function() {
 
 var heart = new Heart (820,275);
 
+
 //******* Rock Obstacles *************//
 var Rock = function (x,y) {
     this.x = x;
@@ -142,19 +182,27 @@ Rock.prototype.render = function() {
 };
 
 var allRocks = [];
+//wall rocks
 var rock0 = new Rock (400,65);
 var rock1 = new Rock (300,-20);
 var rock2 = new Rock (500,395);
 var rock3 = new Rock (400,315);
 var rock4 = new Rock (200,230);
 var rock5 = new Rock (100,315);
-var rock6 = new Rock (600,-20);
+var rock6 = new Rock (0, 315);
 var rock7 = new Rock (500, 150);
 var rock8 = new Rock (600, 650);
-var rock9 = new Rock (600, 555);
-var rock10 = new Rock (600, 470);
-var rock11 = new Rock (0, 315);
-allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11);
+var rock9 = new Rock (600, 565);
+var rock10 = new Rock (600, 480);
+var rock11 = new Rock (710,230);
+var rock12 = new Rock (810, 315);
+//hiding rocks
+var rockStar = new Rock (600,-20);
+var rockKey = new Rock (0,-15);
+var rockSelector = new Rock (810,660);
+
+allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
+allRocks.push (rockStar, rockKey, rockSelector);
 
 //*********** The player *************//
 var Player = function(x,y) {
@@ -214,9 +262,58 @@ Player.prototype.update = function(dt) {
             this.x + this.width > allGems[i].x &&
             this.y < allGems[i].y + allGems[i].height &&
             this.y + this.height > allGems[i].y) {
-
+                collectedGems.push([allGems[i].x, allGems[i].y]);
+                console.log (collectedGems);
+                //move the gem out of the canvas to make it disappear
+                allGems[i].x = 1000;
+                allGems[i].y = 1000;
         }
     }
+
+    //Obtain the key
+    if (this.x < key.x + key.width &&
+            this.x + this.width > key.x &&
+            this.y < key.y + key.height &&
+            this.y + this.height > key.y) {
+                collectedKey.push([key.x, key.y]);
+                console.log (collectedKey);
+                //move the key out of the canvas to make it disappear
+                key.x = 1000;
+                key.y = 1000;
+                player.sprite = 'images/char-boy-key.png';
+    }
+
+    //Obtain the star
+    if (this.x < star.x + star.width &&
+            this.x + this.width > star.x &&
+            this.y < star.y + star.height &&
+            this.y + this.height > star.y) {
+                //move the star out of the canvas to make it disappear
+                collectedStar.push([star.x, star.y]);
+                star.x = 1000;
+                star.y = 1000;
+                player.sprite = 'images/char-boy-star.png';
+    }
+
+    //Reach the selector
+    if (this.x < selector.x + selector.width &&
+            this.x + this.width > selector.x &&
+            this.y < selector.y + selector.height &&
+            this.y + this.height > selector.y) {
+                console.log ("You win!");
+    }
+
+    //Obtain the heart
+    if (this.x < heart.x + heart.width &&
+            this.x + this.width > heart.x &&
+            this.y < heart.y + heart.height &&
+            this.y + this.height > heart.y) {
+                this.lives += 1;
+                console.log (this.lives);
+                //move the heart out of the canvas to make it disappear
+                heart.x = 1000;
+                heart.y = 1000;
+        }
 };
 
 Player.prototype.collision = function () {
@@ -246,24 +343,24 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(movement){
     if (movement == "left") {
         this.playerPosition.push ([this.x, this.y]);
-        console.log([this.x, this.y]);
+        //console.log([this.x, this.y]);
         this.x -= 100;
 
     }
     if (movement == "right") {
         this.playerPosition.push ([this.x, this.y]);
-                console.log([this.x, this.y]);
+        //console.log([this.x, this.y]);
         this.x += 100;
 
     }
     if (movement == "up") {
         this.playerPosition.push ([this.x, this.y]);
-                console.log([this.x, this.y]);
+        //console.log([this.x, this.y]);
         this.y -= 83;
     }
     if (movement == "down") {
         this.playerPosition.push ([this.x, this.y]);
-                console.log([this.x, this.y]);
+        //console.log([this.x, this.y]);
         this.y += 83;
     }
 };

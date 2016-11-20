@@ -96,6 +96,23 @@ var Engine = (function(global) {
         });
 
         player.update();
+
+        //Reveal the key and star
+        if (collectedGems.length === 3) {
+            rockKey.x = 1000;
+            rockKey.y = 1000;
+        }
+
+        if (collectedKey.length > 0) {
+            rockStar.x = 1000;
+            rockStar.y = 1000;
+        }
+
+        if (collectedStar.length > 0) {
+            rockSelector.x = 1000;
+            rockSelector.y = 1000;
+        }
+
     }
 
     /* This function initially draws the "game level", it will then call
@@ -168,6 +185,8 @@ var Engine = (function(global) {
         player.render();
         key.render();
         heart.render();
+        selector.render();
+        star.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -190,10 +209,15 @@ var Engine = (function(global) {
         'images/enemy-bug-LH.png',
         'images/enemy-bug-RH.png',
         'images/char-boy.png',
+        'images/char-boy-star.png',
+        'images/char-boy-key.png',
         'images/rock.png',
         'images/key.png',
         'images/heart.png',
-        'images/GemOrangeSmall.png'
+        'images/Star.png',
+        'images/Selector.png',
+        'images/GemOrangeSmall.png',
+
     ]);
     Resources.onReady(init);
 

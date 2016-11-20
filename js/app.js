@@ -1,3 +1,5 @@
+//Draw boxes around moving entities to easily detect collisions
+/*
 function drawBox(x, y, width, height, color) {
     ctx.beginPath();
     ctx.rect(x, y, width, height);
@@ -5,15 +7,16 @@ function drawBox(x, y, width, height, color) {
     ctx.strokeStyle = color;
     ctx.stroke();
 }
+*/
 
-//********* Enemies our player must avoid ************//
+//********* Enemies moving left to right ************//
 var Enemy = function(x,y) {
     this.x = x;
     this.y = y;
     this.width = 85;
     this.height = 65;
-    this.speed = Math.floor(Math.random() * 100) + 50;
-    this.sprite = 'images/enemy-bug.png';
+    this.speed = Math.floor(Math.random() * 150) + 120;
+    this.sprite = 'images/enemy-bug-LH.png';
 };
 
 // Update the enemy's position, required method for game
@@ -23,15 +26,40 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
-    if (this.x > 900) {
-        this.x = -20;
-    }
+        if (this.x > 900) {
+            this.x = -20;
+        }
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    drawBox(this.x, this.y + 77, 100, 67, "yellow");
+    //drawBox(this.x, this.y + 77, 100, 67, "yellow");
+};
+
+//********* Enemies moving right to left ************//
+var EnemyRH = function(x,y) {
+    this.x = x;
+    this.y = y;
+    this.width = 85;
+    this.height = 65;
+    this.speed = Math.floor(Math.random() * 120) + 100;
+    this.sprite = 'images/enemy-bug-RH.png';
+};
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+EnemyRH.prototype.update = function(dt) {
+    this.x -= this.speed * dt;
+        if (this.x < -50) {
+            this.x = 900;
+        }
+};
+
+// Draw the enemy on the screen, required method for game
+EnemyRH.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //drawBox(this.x, this.y + 77, 100, 67, "yellow");
 };
 
 // Now instantiate your objects.
@@ -39,27 +67,33 @@ Enemy.prototype.render = function() {
 var allEnemies = [];
 var enemy1 = new Enemy (0,70);
 var enemy2 = new Enemy (0,150);
-var enemy3 = new Enemy (100,230);
+var enemy3 = new Enemy (0,230);
 allEnemies.push (enemy1, enemy2, enemy3);
 
-//********** Stars to collect *****************//
-var Star = function (x,y){
+var enemy4 = new EnemyRH (900,320);
+var enemy5 = new EnemyRH (900,400);
+var enemy6 = new EnemyRH (900,480);
+allEnemies.push (enemy4, enemy5, enemy6);
+
+
+//********** Gems to collect *****************//
+var Gem = function (x,y){
     this.x = x;
     this.y = y;
     this.width = 60;
     this.height = 60;
-    this.sprite = 'images/Star.png';
+    this.sprite = 'images/GemOrangeSmall.png';
 };
 
-Star.prototype.render = function() {
+Gem.prototype.render = function() {
     ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
 };
 
-var allStars = [];
-var Star1 = new Star (500, 325);
-var Star2 = new Star (100, 240);
-var Star3 = new Star (600, 155);
-allStars.push(Star1, Star2, Star3);
+var allGems = [];
+var gem1 = new Gem (520, 360);
+var gem2 = new Gem (120, 275);
+var gem3 = new Gem (420, 20);
+allGems.push(gem1, gem2, gem3);
 
 //*************** Key to win ***********//
 var Key = function (x,y){
@@ -74,7 +108,22 @@ Key.prototype.render = function() {
     ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
 };
 
-var key = new Key (0,-10);
+var key = new Key (10,20);
+
+//*************** Heart bonus ***********//
+var Heart = function (x,y){
+    this.x = x;
+    this.y = y;
+    this.width = 60;
+    this.height = 60;
+    this.sprite = 'images/heart.png';
+}
+
+Heart.prototype.render = function() {
+    ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+};
+
+var heart = new Heart (720,190);
 
 //******* Rock Obstacles *************//
 var Rock = function (x,y) {
@@ -91,14 +140,16 @@ Rock.prototype.render = function() {
 };
 
 var allRocks = [];
+var rock0 = new Rock (400,65);
 var rock1 = new Rock (300,-20);
 var rock2 = new Rock (500,395);
-var rock3 = new Rock (200,230);
-allRocks.push(rock1, rock2, rock3);
+var rock3 = new Rock (400,315);
+var rock4 = new Rock (200,230);
+var rock5 = new Rock (100,315);
+var rock6 = new Rock (600,-20);
+allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6);
 
 //*********** The player *************//
-// requires an update(), render() and
-// a handleInput() method.
 var Player = function(x,y) {
     this.x = x;
     this.y = y;
@@ -109,8 +160,8 @@ var Player = function(x,y) {
     this.sprite = 'images/char-boy.png';
 };
 
-//Prevent player icon from moving out of the canvas
 Player.prototype.update = function(dt) {
+    //Prevent player icon from moving out of the canvas
     if (this.x < 0) {
         this.x = 0;
     }
@@ -127,26 +178,36 @@ Player.prototype.update = function(dt) {
         this.y = 653;
     }
 
-    //collide with bugs
+    //Collide with bugs
     for (i=0; i < allEnemies.length; i++) {
         if (this.x < allEnemies[i].x + allEnemies[i].width &&
-        this.x + this.width > allEnemies[i].x &&
-        this.y < allEnemies[i].y + allEnemies[i].height &&
-        this.y + this.height > allEnemies[i].y) {
-            this.collision();
+            this.x + this.width > allEnemies[i].x &&
+            this.y < allEnemies[i].y + allEnemies[i].height &&
+            this.y + this.height > allEnemies[i].y) {
+                this.collision();
         }
     }
 
-    //collide with rocks
+    //Hit the rocks
     for (i = 0; i < allRocks.length; i++){
         if (this.x < allRocks[i].x + allRocks[i].width &&
-        this.x + this.width > allRocks[i].x &&
-        this.y < allRocks[i].y + allRocks[i].height &&
-        this.y + this.height > allRocks[i].y) {
-            this.coordinate();
-            this.x = this.playerPosition[this.playerPosition.length-1][0];
-            this.y = this.playerPosition[this.playerPosition.length-1][1];
-            this.coordinate();
+            this.x + this.width > allRocks[i].x &&
+            this.y < allRocks[i].y + allRocks[i].height &&
+            this.y + this.height > allRocks[i].y) {
+                //this.coordinate();
+                this.x = this.playerPosition[this.playerPosition.length-1][0];
+                this.y = this.playerPosition[this.playerPosition.length-1][1];
+                //this.coordinate();
+        }
+    }
+
+    //Obtain the Gems
+    for (i = 0; i < allGems.length; i++){
+        if (this.x < allGems[i].x + allGems[i].width &&
+            this.x + this.width > allGems[i].x &&
+            this.y < allGems[i].y + allGems[i].height &&
+            this.y + this.height > allGems[i].y) {
+
         }
     }
 };
@@ -159,12 +220,11 @@ Player.prototype.collision = function () {
      else if (this.lives = 1) {
          window.alert ("You lose!");
      }
-    this.x = 300;
+    this.x = 400;
     this.y = 570;
 }
 
 Player.prototype.coordinate = function () {
-    console.log (this.playerPosition);
     console.log (this.x);
     console.log (this.y);
     return;
@@ -172,28 +232,31 @@ Player.prototype.coordinate = function () {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    drawBox(this.x + 15, this.y + 60, 70, 80, "red");
+    //drawBox(this.x + 15, this.y + 60, 70, 80, "red");
 };
 
 //Enable the player to be moved around the canvas
 Player.prototype.handleInput = function(movement){
     if (movement == "left") {
         this.playerPosition.push ([this.x, this.y]);
+        console.log([this.x, this.y]);
         this.x -= 100;
 
     }
     if (movement == "right") {
         this.playerPosition.push ([this.x, this.y]);
+                console.log([this.x, this.y]);
         this.x += 100;
 
     }
     if (movement == "up") {
         this.playerPosition.push ([this.x, this.y]);
+                console.log([this.x, this.y]);
         this.y -= 83;
-
     }
     if (movement == "down") {
         this.playerPosition.push ([this.x, this.y]);
+                console.log([this.x, this.y]);
         this.y += 83;
     }
 };

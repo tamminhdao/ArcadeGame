@@ -94,6 +94,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+
         player.update();
     }
 
@@ -130,7 +131,9 @@ var Engine = (function(global) {
             for (col = 0; col < numCols; col++) {
                 /* The drawImage function of the canvas' context element
                  * requires 3 parameters: the image to draw, the x coordinate
-                 * to start drawing and the y coordinate to start drawing.
+                 * to Gem
+                t drawing and the y coordinate to Gem
+                t drawing.
                  * We're using our Resources helpers to refer to our images
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
@@ -158,13 +161,13 @@ var Engine = (function(global) {
             rock.render();
         });
 
-        allStars.forEach(function(star) {
-            star.render();
+        allGems.forEach(function(Gem) {
+            Gem.render();
         });
 
         player.render();
         key.render();
-
+        heart.render();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -177,17 +180,20 @@ var Engine = (function(global) {
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
-     * all of these images are properly loaded our game will start.
+     * all of these images are properly loaded our game will Gem
+    t.
      */
     Resources.load([
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
+        'images/enemy-bug-LH.png',
+        'images/enemy-bug-RH.png',
         'images/char-boy.png',
         'images/rock.png',
         'images/key.png',
-        'images/Star.png'
+        'images/heart.png',
+        'images/GemOrangeSmall.png'
     ]);
     Resources.onReady(init);
 

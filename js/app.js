@@ -65,15 +65,17 @@ EnemyRH.prototype.render = function() {
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
+var enemy0 = new Enemy (400,70);
 var enemy1 = new Enemy (0,70);
 var enemy2 = new Enemy (0,150);
 var enemy3 = new Enemy (0,230);
-allEnemies.push (enemy1, enemy2, enemy3);
+allEnemies.push (enemy0, enemy1, enemy2, enemy3);
 
 var enemy4 = new EnemyRH (900,320);
 var enemy5 = new EnemyRH (900,400);
 var enemy6 = new EnemyRH (900,480);
-allEnemies.push (enemy4, enemy5, enemy6);
+var enemy7 = new EnemyRH (400,400);
+allEnemies.push (enemy4, enemy5, enemy6, enemy7);
 
 
 //********** Gems to collect *****************//
@@ -90,9 +92,9 @@ Gem.prototype.render = function() {
 };
 
 var allGems = [];
-var gem1 = new Gem (520, 360);
+var gem1 = new Gem (620, 440);
 var gem2 = new Gem (120, 275);
-var gem3 = new Gem (420, 20);
+var gem3 = new Gem (420, 25);
 allGems.push(gem1, gem2, gem3);
 
 //*************** Key to win ***********//
@@ -123,7 +125,7 @@ Heart.prototype.render = function() {
     ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
 };
 
-var heart = new Heart (720,190);
+var heart = new Heart (820,275);
 
 //******* Rock Obstacles *************//
 var Rock = function (x,y) {
@@ -147,7 +149,12 @@ var rock3 = new Rock (400,315);
 var rock4 = new Rock (200,230);
 var rock5 = new Rock (100,315);
 var rock6 = new Rock (600,-20);
-allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6);
+var rock7 = new Rock (500, 150);
+var rock8 = new Rock (600, 650);
+var rock9 = new Rock (600, 555);
+var rock10 = new Rock (600, 470);
+var rock11 = new Rock (0, 315);
+allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11);
 
 //*********** The player *************//
 var Player = function(x,y) {

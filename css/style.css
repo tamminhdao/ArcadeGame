@@ -1,3 +1,25 @@
 body {
-    text-align: center;
+    text-align: left;
+    font-size: 1.5em;
 }
+
+.instruction {
+    display: inline;
+}
+
+.status {
+    max-width: 400px;
+    padding: 10px 10px;
+    margin:0;
+    float: left;
+    clear: both;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    display: inline;
+}
+

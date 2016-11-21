@@ -9,6 +9,19 @@ function drawBox(x, y, width, height, color) {
 }
 */
 
+//********************** GAME ******************************//
+
+var Game = function() {
+    this.gameOver = false;
+    this.gameWin = false;
+};
+
+Game.prototype.resetGame = function() {
+    player.reset();
+};
+
+var game = new Game;
+
 //********* Enemies moving left to right ************//
 var Enemy = function(x,y) {
     this.x = x;
@@ -69,7 +82,7 @@ var enemy0 = new Enemy (400,70);
 var enemy1 = new Enemy (0,70);
 var enemy2 = new Enemy (0,150);
 var enemy3 = new Enemy (0,230);
-allEnemies.push (enemy0, enemy1, enemy2, enemy3);
+//allEnemies.push (enemy0, enemy1, enemy2, enemy3);
 
 var enemy4 = new EnemyRH (900,320);
 var enemy5 = new EnemyRH (900,400);
@@ -240,7 +253,7 @@ Player.prototype.update = function(dt) {
             this.y < allEnemies[i].y + allEnemies[i].height &&
             this.y + this.height > allEnemies[i].y) {
                 this.collision();
-        }
+                }
     }
 
     //Hit the rocks
@@ -263,7 +276,7 @@ Player.prototype.update = function(dt) {
             this.y < allGems[i].y + allGems[i].height &&
             this.y + this.height > allGems[i].y) {
                 collectedGems.push([allGems[i].x, allGems[i].y]);
-                console.log (collectedGems);
+                document.getElementById("gems").innerHTML = "Gems Collected: " + collectedGems.length;
                 //move the gem out of the canvas to make it disappear
                 allGems[i].x = 1000;
                 allGems[i].y = 1000;
@@ -277,6 +290,7 @@ Player.prototype.update = function(dt) {
             this.y + this.height > star.y) {
                 //move the star out of the canvas to make it disappear
                 collectedStar.push([star.x, star.y]);
+                document.getElementById("star").innerHTML = "Star Collected: " + collectedStar.length;
                 star.x = 1000;
                 star.y = 1000;
                 player.sprite = 'images/char-boy-star.png';
@@ -288,7 +302,6 @@ Player.prototype.update = function(dt) {
             this.y < selector.y + selector.height &&
             this.y + this.height > selector.y) {
                 selectorCoordinate.push([key.x, key.y]);
-                console.log ("Reach Selector");
                 selector.x = 1000;
                 selector.y = 1000;
                 player.sprite = 'images/char-boy.png';
@@ -299,7 +312,7 @@ Player.prototype.update = function(dt) {
             this.x + this.width > key.x &&
             this.y < key.y + key.height &&
             this.y + this.height > key.y) {
-                console.log ("you win!");
+                document.getElementById("key").innerHTML = "Key Collected: 1";
                 //move the key out of the canvas to make it disappear
                 key.x = 1000;
                 key.y = 1000;
@@ -312,23 +325,23 @@ Player.prototype.update = function(dt) {
             this.y < heart.y + heart.height &&
             this.y + this.height > heart.y) {
                 this.lives += 1;
-                console.log (this.lives);
+                document.getElementById("lives").innerHTML = "Live(s): " + this.lives;
                 //move the heart out of the canvas to make it disappear
                 heart.x = 1000;
                 heart.y = 1000;
         }
 };
 
+//Return player to the grass
+Player.prototype.reset = function(){
+        this.x = 400;
+        this.y = 570;
+}
+
 Player.prototype.collision = function () {
-    if (this.lives > 1) {
         this.lives -= 1;
-        console.log ("Collision! You have " + this.lives + " lives left!");
-     }
-     else if (this.lives = 1) {
-         window.alert ("You lose!");
-     }
-    this.x = 400;
-    this.y = 570;
+        document.getElementById("lives").innerHTML = "Live(s): " + this.lives;
+        this.reset();
 }
 
 Player.prototype.coordinate = function () {

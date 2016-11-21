@@ -109,13 +109,12 @@ var Key = function (x,y){
 }
 
 Key.prototype.render = function() {
-    if (collectedGems.length === 3) {
+    if (selectorCoordinate.length > 0) {
         ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
     }
 };
 
-var collectedKey = [];
-var key = new Key (30,30);
+var key = new Key (625,35);
 
 //*************** Selector ***********//
 var Selector = function (x,y){
@@ -132,6 +131,7 @@ Selector.prototype.render = function() {
     }
 };
 
+var selectorCoordinate = [];
 var selector = new Selector (810,660);
 
 //*************** Star ***********//
@@ -144,12 +144,12 @@ var Star = function (x,y){
 }
 
 Star.prototype.render = function() {
-    if (collectedKey.length > 0) {
+    if (collectedGems.length === 3) {
         ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
     }
 };
 var collectedStar = [];
-var star = new Star (620,10);
+var star = new Star (10,10);
 
 //*************** Heart bonus ***********//
 var Heart = function (x,y){
@@ -197,8 +197,8 @@ var rock10 = new Rock (600, 480);
 var rock11 = new Rock (710,230);
 var rock12 = new Rock (810, 315);
 //hiding rocks
-var rockStar = new Rock (600,-20);
-var rockKey = new Rock (0,-15);
+var rockKey = new Rock (600,-20);
+var rockStar = new Rock (0,-15);
 var rockSelector = new Rock (810,660);
 
 allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
@@ -270,19 +270,6 @@ Player.prototype.update = function(dt) {
         }
     }
 
-    //Obtain the key
-    if (this.x < key.x + key.width &&
-            this.x + this.width > key.x &&
-            this.y < key.y + key.height &&
-            this.y + this.height > key.y) {
-                collectedKey.push([key.x, key.y]);
-                console.log (collectedKey);
-                //move the key out of the canvas to make it disappear
-                key.x = 1000;
-                key.y = 1000;
-                player.sprite = 'images/char-boy-key.png';
-    }
-
     //Obtain the star
     if (this.x < star.x + star.width &&
             this.x + this.width > star.x &&
@@ -300,7 +287,23 @@ Player.prototype.update = function(dt) {
             this.x + this.width > selector.x &&
             this.y < selector.y + selector.height &&
             this.y + this.height > selector.y) {
-                console.log ("You win!");
+                selectorCoordinate.push([key.x, key.y]);
+                console.log ("Reach Selector");
+                selector.x = 1000;
+                selector.y = 1000;
+                player.sprite = 'images/char-boy.png';
+    }
+
+        //Obtain the key
+    if (this.x < key.x + key.width &&
+            this.x + this.width > key.x &&
+            this.y < key.y + key.height &&
+            this.y + this.height > key.y) {
+                console.log ("you win!");
+                //move the key out of the canvas to make it disappear
+                key.x = 1000;
+                key.y = 1000;
+                player.sprite = 'images/char-boy-key.png';
     }
 
     //Obtain the heart

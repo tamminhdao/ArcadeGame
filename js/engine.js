@@ -99,11 +99,6 @@ var Engine = (function(global) {
 
         //Reveal the key and star
         if (collectedGems.length === 3) {
-            rockKey.x = 1000;
-            rockKey.y = 1000;
-        }
-
-        if (collectedKey.length > 0) {
             rockStar.x = 1000;
             rockStar.y = 1000;
         }
@@ -111,6 +106,11 @@ var Engine = (function(global) {
         if (collectedStar.length > 0) {
             rockSelector.x = 1000;
             rockSelector.y = 1000;
+        }
+
+        if (selectorCoordinate.length > 0) {
+            rockKey.x = 1000;
+            rockKey.y = 1000;
         }
 
     }

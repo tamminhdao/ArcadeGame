@@ -183,7 +183,7 @@ var Key = function (x,y){
     this.originalPosition = [x,y];
     this.width = 20;
     this.height = 20;
-    this.sprite = 'images/key.png';
+    this.sprite = 'images/Key.png';
 };
 
 Key.prototype.render = function() {
@@ -262,7 +262,7 @@ var Heart = function (x,y){
     this.originalPosition = [x,y];
     this.width = 60;
     this.height = 60;
-    this.sprite = 'images/heart.png';
+    this.sprite = 'images/Heart.png';
 };
 
 Heart.prototype.render = function() {
@@ -286,7 +286,7 @@ var Rock = function (x,y) {
     this.originalPosition = [x,y];
     this.width = 60;
     this.height = 60;
-    this.sprite = 'images/rock.png';
+    this.sprite = 'images/Rock.png';
 };
 
 // Draw the rocks on the screen

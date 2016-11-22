@@ -16,10 +16,9 @@ function drawBox(x, y, width, height, color) {
 var Game = function() {};
 
 Game.prototype.win = function() {
-    if (player.x === 600 && player.y === -11){
-        allEnemies = [];
-        alert ("CONGRATS! YOU WIN! **To play again: Refresh the page**");
-    }
+    allEnemies = [];
+    alert ("CONGRATS! YOU WIN! **To play again: Refresh the page**");
+
 };
 
 Game.prototype.lose = function() {

@@ -178,8 +178,8 @@ var Engine = (function(global) {
             rock.render();
         });
 
-        allGems.forEach(function(Gem) {
-            Gem.render();
+        allGems.forEach(function(gem) {
+            gem.render();
         });
 
         player.render();
@@ -215,7 +215,7 @@ var Engine = (function(global) {
         'images/heart.png',
         'images/Star.png',
         'images/Selector.png',
-        'images/GemOrangeSmall.png',
+        'images/GemOrange.png',
 
     ]);
     Resources.onReady(init);

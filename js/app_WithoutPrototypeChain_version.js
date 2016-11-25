@@ -30,7 +30,6 @@ Game.prototype.resetGame = function() {
     star.reset();
     selector.reset();
     var allGemsLength = allGems.length;
-    console.log (allGemsLength);
     for (i=0; i < allGemsLength; i++) {
         allGems[i].reset();
     }

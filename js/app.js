@@ -29,13 +29,16 @@ Game.prototype.resetGame = function() {
     heart.reset();
     star.reset();
     selector.reset();
-    for (i=0; i < allGems.length; i++) {
+    var allGemsLength = allGems.length;
+    for (i=0; i < allGemsLength; i++) {
         allGems[i].reset();
     }
-    for (i=0; i < allEnemies.length; i++) {
+    var allEnemiesLength = allEnemies.length;
+    for (i=0; i < allEnemiesLength; i++) {
         allEnemies[i].reset();
     }
-    for (i=0; i < allRocks.length; i++) {
+    var allRocksLength = allRocks.length;
+    for (i=0; i < allRocksLength; i++) {
         allRocks[i].reset();
     }
 };

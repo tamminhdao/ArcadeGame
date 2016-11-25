@@ -1,14 +1,3 @@
-//Draw boxes around moving entities to easily detect collisions
-/*
-function drawBox(x, y, width, height, color) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-}
-*/
-
 //*******************************************************************************************//
 //********************************************* GAME ****************************************//
 //*******************************************************************************************//
@@ -22,8 +11,8 @@ Game.prototype.win = function() {
 };
 
 Game.prototype.lose = function() {
-        alert ("GAME OVER!");
-        game.resetGame();
+    alert ("GAME OVER!");
+    this.resetGame();
 };
 
 //Reset the game in the event of game over
@@ -301,7 +290,7 @@ Rock.prototype.reset = function(){
 var allRocks = [];
 //Obstacle rocks
 var rock0 = new Rock (400,65);
-var rock1 = new Rock (300,-20);
+var rock1 = new Rock (300,-15);
 var rock2 = new Rock (500,395);
 var rock3 = new Rock (400,315);
 var rock4 = new Rock (200,230);
@@ -314,9 +303,9 @@ var rock10 = new Rock (600, 480);
 var rock11 = new Rock (710,230);
 var rock12 = new Rock (810, 315);
 //Hiding rocks
-var rockKey = new Rock (600,-20);
+var rockKey = new Rock (600,-15);
 var rockStar = new Rock (0,-15);
-var rockSelector = new Rock (810,660);
+var rockSelector = new Rock (810,650);
 
 allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
 allRocks.push (rockStar, rockKey, rockSelector);
@@ -349,7 +338,9 @@ Player.prototype.collision = function () {
             this.lives -= 1;
             document.getElementById("lives").innerHTML = "Live(s): " + this.lives;
             //Delay the Game Over alert or it pops up too last for the document to update lives status to 0
-            setTimeout(game.lose, 50);
+            setTimeout(function() {
+                game.lose();
+            }, 50);
        }
        //Scenario 2: Player still has lives left to continue playing
        else if (this.lives > 1) {
@@ -436,7 +427,7 @@ Player.prototype.update = function(dt) {
                 //move the star out of the canvas to make it disappear
                 star.x = 1000;
                 star.y = 1000;
-                player.sprite = 'images/char-boy-star.png';
+                this.sprite = 'images/char-boy-star.png';
     }
 
     //Reach the selector
@@ -448,7 +439,7 @@ Player.prototype.update = function(dt) {
                 //move selector out of the canvas to make it disappear
                 selector.x = 1000;
                 selector.y = 1000;
-                player.sprite = 'images/char-boy.png';
+                this.sprite = 'images/char-boy.png';
     }
 
     //Obtain the key
@@ -460,9 +451,11 @@ Player.prototype.update = function(dt) {
                 //move the key out of the canvas to prevent infinite loop and also make it disappear
                 key.x = 1000;
                 key.y = 1000;
-                player.sprite = 'images/char-boy-key.png';
+                this.sprite = 'images/char-boy-key.png';
                 //Delay alert by 200 ms otherwise it pops up too fast
-                setTimeout(game.win, 200);
+                setTimeout(function() {
+                    game.win();
+                }, 200);
     }
 
     //Obtain the heart
@@ -519,3 +512,17 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
+/*************** SUPPORT FUNCTION IN THE PLANNING/DESIGNING STAGE ******************/
+//Draw boxes around moving entities to easily detect collisions
+//Useful while trying to time collision so that it's not too soon or too late
+/*
+function drawBox(x, y, width, height, color) {
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+}
+*/

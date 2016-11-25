@@ -43,251 +43,38 @@ Game.prototype.resetGame = function() {
 var game = new Game;
 
 //*******************************************************************************************//
-//****************************** Enemies moving left to right *******************************//
-//*******************************************************************************************//
+//************************************ ENTITIES IN THE GAME *********************************//
+//***********************************(Not Include the Player)*********************************//
 
-var EnemyLH = function(x,y) {
+var Entity = function (x,y) {
     this.x = x;
     this.y = y;
     this.originalPosition = [x, y];
-    this.width = 85;
-    this.height = 65;
-    this.speed = Math.floor(Math.random() * 120) + 100;
-    this.sprite = 'images/enemy-bug-LH.png';
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-EnemyLH.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    this.x += this.speed * dt;
-        if (this.x > 900) {
-            this.x = -20;
-        }
-};
-
-// Draw the enemy on the screen, required method for game
-EnemyLH.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    //drawBox(this.x, this.y + 77, 100, 67, "yellow");
-};
-
-EnemyLH.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-//*******************************************************************************************//
-//*********************************** Enemies moving right to left **************************//
-//*******************************************************************************************//
-
-var EnemyRH = function(x,y) {
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
-    this.width = 85;
-    this.height = 65;
-    this.speed = Math.floor(Math.random() * 100) + 150;
-    this.sprite = 'images/enemy-bug-RH.png';
-};
-
-// Update the enemy's position
-// Parameter: dt, a time delta between ticks
-EnemyRH.prototype.update = function(dt) {
-    this.x -= this.speed * dt;
-        if (this.x < -50) {
-            this.x = 900;
-        }
-};
-
-// Draw the enemy on the screen
-EnemyRH.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    //drawBox(this.x, this.y + 77, 100, 67, "yellow");
-};
-
-EnemyRH.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-
-//************* Instantiate all enemy objects *************//
-
-var allEnemies = [];
-var enemy0 = new EnemyLH (400,70);
-var enemy1 = new EnemyLH (0,70);
-var enemy2 = new EnemyLH (0,150);
-var enemy3 = new EnemyLH (0,230);
-allEnemies.push (enemy0, enemy1, enemy2, enemy3);
-
-var enemy4 = new EnemyRH (900,320);
-var enemy5 = new EnemyRH (900,400);
-var enemy6 = new EnemyRH (900,480);
-var enemy7 = new EnemyRH (400,400);
-allEnemies.push (enemy4, enemy5, enemy6, enemy7);
-
-
-//*******************************************************************************************//
-//****************************** Gems to collect ********************************************//
-//*******************************************************************************************//
-
-var Gem = function (x,y){
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
     this.width = 60;
     this.height = 60;
-    this.sprite = 'images/GemOrange.png';
 };
 
-Gem.prototype.render = function() {
+Entity.prototype.reset = function(){
+    this.x = this.originalPosition[0];
+    this.y = this.originalPosition[1];
+};
+
+Entity.prototype.render = function() {
     ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
 };
 
-Gem.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-
-var allGems = [];
-var gem1 = new Gem (620, 440);
-var gem2 = new Gem (120, 275);
-var gem3 = new Gem (420, 25);
-allGems.push(gem1, gem2, gem3);
-
-var collectedGems = []; //coordinate of collected gems
-
-//*******************************************************************************************//
-//************************************* Key to win******************************************//
-//*******************************************************************************************//
-
-var Key = function (x,y){
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
-    this.width = 20;
-    this.height = 20;
-    this.sprite = 'images/Key.png';
-};
-
-Key.prototype.render = function() {
-    if (selectorCoordinate.length > 0) {
-        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
-    }
-};
-
-Key.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-var key = new Key (625,35);
-
-//*******************************************************************************************//
-//************************************* Selector ********************************************//
-//*******************************************************************************************//
-
-var Selector = function (x,y){
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
-    this.width = 40;
-    this.height = 40;
-    this.sprite = 'images/Selector.png';
-};
-
-Selector.prototype.render = function() {
-    if (collectedStar.length > 0){
-        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
-    }
-};
-
-Selector.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-var selectorCoordinate = []; //save the coordinate once the player reach the selector
-var selector = new Selector (810,660);
-
-//*******************************************************************************************//
-//************************************** Star ***********************************************//
-//*******************************************************************************************//
-
-var Star = function (x,y){
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
-    this.width = 60;
-    this.height = 60;
-    this.sprite = 'images/Star.png';
-};
-
-Star.prototype.render = function() {
-    if (collectedGems.length === 3) {
-        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
-    }
-};
-
-Star.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-var collectedStar = [];
-var star = new Star (10,10);
-
-//*******************************************************************************************//
-//********************************** Heart: bonus live **************************************//
-//*******************************************************************************************//
-var Heart = function (x,y){
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
-    this.width = 60;
-    this.height = 60;
-    this.sprite = 'images/Heart.png';
-};
-
-Heart.prototype.render = function() {
-    ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
-};
-
-Heart.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
-
-var heart = new Heart (820,275);
-
-//*******************************************************************************************//
 //********************************** Rock Obstacles *****************************************//
-//*******************************************************************************************//
 
-var Rock = function (x,y) {
-    this.x = x;
-    this.y = y;
-    this.originalPosition = [x,y];
-    this.width = 60;
-    this.height = 60;
+var Rock = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition, width, height);
     this.sprite = 'images/Rock.png';
 };
 
-// Draw the rocks on the screen
-Rock.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+Rock.prototype = Object.create(Entity.prototype);
 
-Rock.prototype.reset = function(){
-    this.x = this.originalPosition[0];
-    this.y = this.originalPosition[1];
-};
 
 var allRocks = [];
+
 //Obstacle rocks
 var rock0 = new Rock (400,65);
 var rock1 = new Rock (300,-15);
@@ -302,6 +89,7 @@ var rock9 = new Rock (600, 565);
 var rock10 = new Rock (600, 480);
 var rock11 = new Rock (710,230);
 var rock12 = new Rock (810, 315);
+
 //Hiding rocks
 var rockKey = new Rock (600,-15);
 var rockStar = new Rock (0,-15);
@@ -309,6 +97,151 @@ var rockSelector = new Rock (810,650);
 
 allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
 allRocks.push (rockStar, rockKey, rockSelector);
+
+//********************************* Gems to collect *****************************************//
+
+var Gem = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition, width, height);
+    this.sprite = 'images/GemOrange.png';
+};
+
+Gem.prototype = Object.create(Entity.prototype);
+
+var allGems = [];
+var gem1 = new Gem (620, 440);
+var gem2 = new Gem (120, 275);
+var gem3 = new Gem (420, 25);
+allGems.push(gem1, gem2, gem3);
+
+var collectedGems = []; //coordinate of collected gems
+
+//********************************** Heart: bonus live **************************************//
+
+var Heart = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition, width, height);
+    this.sprite = 'images/Heart.png';
+};
+
+Heart.prototype = Object.create(Entity.prototype);
+
+var heart = new Heart (820,275);
+
+//************************************** Star ***********************************************//
+
+var Star = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition, width, height);
+    this.sprite = 'images/Star.png';
+};
+
+Star.prototype = Object.create(Entity.prototype);
+
+//Override the render function
+Star.prototype.render = function() {
+    if (collectedGems.length === 3) {
+        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    }
+};
+
+var collectedStar = [];
+var star = new Star (10,10);
+
+//************************************* Selector ********************************************//
+
+var Selector = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition, width, height);
+    this.sprite = 'images/Selector.png';
+};
+
+Selector.prototype = Object.create(Entity.prototype);
+
+//Override the render function
+Selector.prototype.render = function() {
+    if (collectedStar.length > 0) {
+        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    }
+};
+
+var selectorCoordinate = []; //save the coordinate once the player reach the selector
+var selector = new Selector (810,660);
+
+//************************************* Key to win *****************************************//
+
+var Key = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition);
+    this.width = 20;
+    this.height = 20;
+    this.sprite = 'images/Key.png';
+};
+
+Key.prototype = Object.create(Entity.prototype);
+
+//Override the render function
+Key.prototype.render = function() {
+    if (selectorCoordinate.length > 0) {
+        ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
+    }
+};
+
+var key = new Key (625,35);
+
+//****************************** Enemies moving left to right *******************************//
+
+var EnemyLH = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition);
+    this.width = 85;
+    this.height = 65;
+    this.speed = Math.floor(Math.random() * 120) + 100;
+    this.sprite = 'images/enemy-bug-LH.png';
+};
+
+EnemyLH.prototype = Object.create(Entity.prototype);
+
+EnemyLH.prototype.update = function(dt) {
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+    this.x += this.speed * dt;
+        if (this.x > 900) {
+            this.x = -20;
+        }
+};
+
+var allEnemies = [];
+var enemy0 = new EnemyLH (400,70);
+var enemy1 = new EnemyLH (0,70);
+var enemy2 = new EnemyLH (0,150);
+var enemy3 = new EnemyLH (0,230);
+allEnemies.push (enemy0, enemy1, enemy2, enemy3);
+
+//*********************************** Enemies moving right to left **************************//
+
+
+var EnemyRH = function (x,y, originalPosition, width, height) {
+    Entity.call (this, x, y, originalPosition);
+    this.width = 85;
+    this.height = 65;
+    this.speed = Math.floor(Math.random() * 100) + 150;
+    this.sprite = 'images/enemy-bug-RH.png';
+};
+
+EnemyRH.prototype = Object.create(Entity.prototype);
+
+EnemyRH.prototype.update = function(dt) {
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+    this.x -= this.speed * dt;
+        if (this.x < -50) {
+            this.x = 900;
+        }
+};
+
+var enemy4 = new EnemyRH (900,320);
+var enemy5 = new EnemyRH (900,400);
+var enemy6 = new EnemyRH (900,480);
+var enemy7 = new EnemyRH (400,400);
+allEnemies.push (enemy4, enemy5, enemy6, enemy7);
+
 
 //*******************************************************************************************//
 //*************************************** The player ****************************************//
@@ -512,17 +445,3 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
-
-
-/*************** SUPPORT FUNCTION IN THE PLANNING/DESIGNING STAGE ******************/
-//Draw boxes around moving entities to easily detect collisions
-//Useful while trying to time collision so that it's not too soon or too late
-/*
-function drawBox(x, y, width, height, color) {
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = color;
-    ctx.stroke();
-}
-*/

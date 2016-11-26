@@ -197,7 +197,7 @@ var EnemyLH = function (x,y, originalPosition, width, height) {
     Entity.call (this, x, y, originalPosition);
     this.width = 85;
     this.height = 65;
-    this.speed = Math.floor(Math.random() * 120) + 100;
+    this.speed = Math.floor(Math.random() * 250) + 100;
     this.sprite = 'images/enemy-bug-LH.png';
 };
 

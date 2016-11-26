@@ -57,7 +57,7 @@ var Entity = function (x,y) {
     this.height = 60;
 };
 
-Entity.prototype.reset = function(){
+Entity.prototype.reset = function() {
     this.x = this.originalPosition[0];
     this.y = this.originalPosition[1];
 };
@@ -274,7 +274,7 @@ Player.prototype.reset = function(){
 }
 
 //what happen when player collide with enemy
-Player.prototype.collision = function () {
+Player.prototype.collision = function() {
         //Game Over scenario
         if (this.lives === 1) {
             this.lives -= 1;
@@ -334,7 +334,7 @@ Player.prototype.update = function(dt) {
     }
 
     //Hit the rocks
-    for (i = 0; i < allRocks.length; i++){
+    for (i = 0; i < allRocks.length; i++) {
         if (this.x < allRocks[i].x + allRocks[i].width &&
             this.x + this.width > allRocks[i].x &&
             this.y < allRocks[i].y + allRocks[i].height &&
@@ -345,7 +345,7 @@ Player.prototype.update = function(dt) {
     }
 
     //Obtain the Gems
-    for (i = 0; i < allGems.length; i++){
+    for (i = 0; i < allGems.length; i++) {
         if (this.x < allGems[i].x + allGems[i].width &&
             this.x + this.width > allGems[i].x &&
             this.y < allGems[i].y + allGems[i].height &&
@@ -409,7 +409,7 @@ Player.prototype.update = function(dt) {
                 //move the heart out of the canvas to make it disappear
                 heart.x = 1000;
                 heart.y = 1000;
-        }
+    }
 };
 
 //Enable the player to be moved around the canvas

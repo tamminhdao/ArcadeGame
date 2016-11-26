@@ -258,7 +258,8 @@ allEnemies.push (enemy4, enemy5, enemy6, enemy7);
 var Player = function(x,y) {
     this.x = x;
     this.y = y;
-    this.playerPosition = []; //record player's x-y coordinate (to use when running into rock)
+    //record player's x-y coordinate (to use when running into a rock)
+    this.playerPosition = []; // [[x,y], [x,y], etc...]
     this.width = 60;
     this.height = 70;
     this.lives = 5;
@@ -437,7 +438,7 @@ Player.prototype.handleInput = function(movement){
     }
 };
 
-// Place the player object in a variable called player
+// Initiate the player by placing the player object in a variable called player
 var player = new Player(400,653);
 
 // This listens for key presses and sends the keys to your

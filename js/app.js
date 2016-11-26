@@ -45,7 +45,7 @@ Game.prototype.resetGame = function() {
 
 var game = new Game;
 
-//*******************************************************************************************//
+//**************************************   SUPER CLASS   ***********************************//
 //************************************ ENTITIES IN THE GAME *********************************//
 //***********************************(Not Include the Player)*********************************//
 
@@ -66,6 +66,7 @@ Entity.prototype.render = function() {
     ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
 };
 
+//**************************************   SUB-CLASS   ***********************************//
 //********************************** Rock Obstacles *****************************************//
 
 var Rock = function (x,y, originalPosition, width, height) {
@@ -75,9 +76,7 @@ var Rock = function (x,y, originalPosition, width, height) {
 
 Rock.prototype = Object.create(Entity.prototype);
 
-
 var allRocks = [];
-
 //Obstacle rocks
 var rock0 = new Rock (400,65);
 var rock1 = new Rock (300,-15);
@@ -92,7 +91,6 @@ var rock9 = new Rock (600, 565);
 var rock10 = new Rock (600, 480);
 var rock11 = new Rock (710,230);
 var rock12 = new Rock (810, 315);
-
 //Hiding rocks
 var rockKey = new Rock (600,-15);
 var rockStar = new Rock (0,-15);
@@ -101,6 +99,7 @@ var rockSelector = new Rock (810,650);
 allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
 allRocks.push (rockStar, rockKey, rockSelector);
 
+//**************************************   SUB-CLASS   ***********************************//
 //********************************* Gems to collect *****************************************//
 
 var Gem = function (x,y, originalPosition, width, height) {
@@ -118,6 +117,7 @@ allGems.push(gem1, gem2, gem3);
 
 var collectedGems = []; //coordinate of collected gems
 
+//**************************************   SUB-CLASS   ***********************************//
 //********************************** Heart: bonus live **************************************//
 
 var Heart = function (x,y, originalPosition, width, height) {
@@ -129,6 +129,7 @@ Heart.prototype = Object.create(Entity.prototype);
 
 var heart = new Heart (820,275);
 
+//**************************************   SUB-CLASS   ***********************************//
 //************************************** Star ***********************************************//
 
 var Star = function (x,y, originalPosition, width, height) {
@@ -148,6 +149,7 @@ Star.prototype.render = function() {
 var collectedStar = [];
 var star = new Star (10,10);
 
+//**************************************   SUB-CLASS   ***********************************//
 //************************************* Selector ********************************************//
 
 var Selector = function (x,y, originalPosition, width, height) {
@@ -167,6 +169,7 @@ Selector.prototype.render = function() {
 var selectorCoordinate = []; //save the coordinate once the player reach the selector
 var selector = new Selector (810,660);
 
+//**************************************   SUB-CLASS   ***********************************//
 //************************************* Key to win *****************************************//
 
 var Key = function (x,y, originalPosition, width, height) {
@@ -187,6 +190,7 @@ Key.prototype.render = function() {
 
 var key = new Key (625,35);
 
+//**************************************   SUB-CLASS   ***********************************//
 //****************************** Enemies moving left to right *******************************//
 
 var EnemyLH = function (x,y, originalPosition, width, height) {
@@ -216,6 +220,7 @@ var enemy2 = new EnemyLH (0,150);
 var enemy3 = new EnemyLH (0,230);
 allEnemies.push (enemy0, enemy1, enemy2, enemy3);
 
+//**************************************   SUB-CLASS   ***********************************//
 //*********************************** Enemies moving right to left **************************//
 
 
@@ -289,7 +294,6 @@ Player.prototype.collision = function () {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    //drawBox(this.x + 15, this.y + 60, 70, 80, "red");
 };
 
 /* This function helps during the coding process (keep for reference)*

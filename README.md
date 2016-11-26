@@ -1,6 +1,30 @@
-frontend-nanodegree-arcade-game
+# Arcade Game Clone
 ===============================
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+### Overview
+===============================
+This game consists of one player (the boy) and several enemies (the bugs).
+The player has to travel across the canvas in order to obtain several collectible items while avoid colliding with the enemies.
+Each collected item will reveal the location of more collectible items.
+
+
+### How to get started
+===============================
+- Visit https://github.com/tamminhdao/ArcadeGame
+- Clone or download the repository
+- Right click on the downloaded zip file and click on _Extract All_
+- Double click **index.html** to open the game
+
+
+### The rule of the game
+===============================
+1. The player can be moved up, down, right, left with the corresponding _arrow keys_
+2. The player starts out with 5 lives.
+3. First, the player needs to collect all **three gems** to reveal the location of **the hidden star**.
+4. Second, the player needs to collect the star and place it in **the placeholder** to reveal the location of **the hidden key**.
+5. Finally, the player needs to collect the key to win the game.
+6. Everytime the player collides with an enemy he will be return to his starting position (the grass).
+7. If the player loses all lives, an alert will pop up saying "GAME OVER" and the game resets itself.
+8. If the player successfully collects the key, an alert will pop up saying "CONGRATS! YOU WIN!"
+9. To play again after winning, refresh the page.

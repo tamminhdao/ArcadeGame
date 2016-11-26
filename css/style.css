@@ -11,7 +11,7 @@ img {
 .status {
     max-width: 400px;
     padding: 10px 10px;
-    margin:0;
+    margin: 0;
     float: left;
     clear: both;
 }
@@ -19,6 +19,3 @@ img {
 ul {
     list-style: none;
 }
-
-
-

@@ -3,14 +3,15 @@
 
 
 ### Overview
-===============================
 This game consists of one player (the boy) and several enemies (the bugs).
 The player has to travel across the canvas in order to obtain several collectible items while avoid colliding with the enemies.
 Each collected item will reveal the location of more collectible items.
 
 
 ### How to get started
-===============================
+- Play the game on any web browser by visiting https://tamminhdao.github.io/ArcadeGame/
+
+To gain access to both the game and its code:
 - Visit https://github.com/tamminhdao/ArcadeGame
 - Clone or download the repository
 - Right click on the downloaded zip file and click on _Extract All_
@@ -18,7 +19,6 @@ Each collected item will reveal the location of more collectible items.
 
 
 ### The rule of the game
-===============================
 1. The player can be moved up, down, right, left with the corresponding _arrow keys_
 2. The player starts out with 5 lives.
 3. First, the player needs to collect all **three gems** to reveal the location of **the hidden star**.

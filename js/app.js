@@ -266,7 +266,7 @@ var Player = function(x,y) {
     this.sprite = 'images/char-boy.png';
 };
 
-Player.prototype.reset = function(){
+Player.prototype.reset = function() {
         this.x = 400;
         this.y = 570;
         this.lives = 5;

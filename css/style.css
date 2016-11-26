@@ -10,8 +10,8 @@ img {
 }
 
 .status {
-    max-width: 30%;
-    padding: 10px 10px;
+    max-width: 25%;
+    padding: 10px 10px 0 0;
     margin: 0;
     float: left;
     clear: both;

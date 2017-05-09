@@ -91,24 +91,24 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        array.allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
 
         player.update();
 
         //Reveal the key and star
-        if (collectedGems.length === 3) {
+        if (array.collectedGems.length === 3) {
             rockStar.x = 1000;
             rockStar.y = 1000;
         }
 
-        if (collectedStar.length > 0) {
+        if (array.collectedStar.length > 0) {
             rockSelector.x = 1000;
             rockSelector.y = 1000;
         }
 
-        if (selectorCoordinate.length > 0) {
+        if (array.selectorCoordinate.length > 0) {
             rockKey.x = 1000;
             rockKey.y = 1000;
         }
@@ -170,15 +170,15 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        array.allEnemies.forEach(function(enemy) {
             enemy.render();
         });
 
-        allRocks.forEach(function(rock) {
+        array.allRocks.forEach(function(rock) {
             rock.render();
         });
 
-        allGems.forEach(function(gem) {
+        array.allGems.forEach(function(gem) {
             gem.render();
         });
 

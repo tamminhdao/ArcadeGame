@@ -1,3 +1,12 @@
+var array = {
+    allEnemies: [],
+    allGems: [],
+    allRocks: [],
+    collectedGems: [], //coordinate of collected gems
+    collectedStar: [],
+    selectorCoordinate: [], //save the coordinate once the player reach the selector
+};
+
 //*******************************************************************************************//
 //********************************************* GAME ****************************************//
 //*******************************************************************************************//
@@ -5,7 +14,7 @@
 var Game = function() {};
 
 Game.prototype.win = function() {
-    allEnemies = [];
+    array.allEnemies = [];
     alert ("CONGRATS! YOU WIN! **To play again: Refresh the page**");
 
 };
@@ -17,9 +26,9 @@ Game.prototype.lose = function() {
 
 //Reset the game in the event of game over
 Game.prototype.resetGame = function() {
-    collectedGems = [];
-    collectedStar = [];
-    selectorCoordinate = [];
+    array.collectedGems = [];
+    array.collectedStar = [];
+    array.selectorCoordinate = [];
     document.getElementById("lives").innerHTML = "Lives: 5";
     document.getElementById("gems").innerHTML = "Gems Collected: 0";
     document.getElementById("star").innerHTML = "Star Collected: Not yet!";
@@ -29,21 +38,21 @@ Game.prototype.resetGame = function() {
     heart.reset();
     star.reset();
     selector.reset();
-    var allGemsLength = allGems.length;
+    var allGemsLength = array.allGems.length;
     for (i=0; i < allGemsLength; i++) {
-        allGems[i].reset();
+        array.allGems[i].reset();
     }
-    var allEnemiesLength = allEnemies.length;
+    var allEnemiesLength = array.allEnemies.length;
     for (i=0; i < allEnemiesLength; i++) {
-        allEnemies[i].reset();
+        array.allEnemies[i].reset();
     }
-    var allRocksLength = allRocks.length;
+    var allRocksLength = array.allRocks.length;
     for (i=0; i < allRocksLength; i++) {
-        allRocks[i].reset();
+        array.allRocks[i].reset();
     }
 };
 
-var game = new Game;
+var game = new Game();
 
 
 //************************************ ENTITIES IN THE GAME *********************************//
@@ -76,7 +85,7 @@ var Rock = function (x,y, originalPosition, width, height) {
 
 Rock.prototype = Object.create(Entity.prototype);
 
-var allRocks = [];
+
 //Obstacle rocks
 var rock0 = new Rock (400,65);
 var rock1 = new Rock (300,-15);
@@ -96,8 +105,8 @@ var rockKey = new Rock (600,-15);
 var rockStar = new Rock (0,-15);
 var rockSelector = new Rock (810,650);
 
-allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
-allRocks.push (rockStar, rockKey, rockSelector);
+array.allRocks.push(rock0, rock1, rock2, rock3, rock4, rock5, rock6, rock7,rock8, rock9, rock10, rock11, rock12);
+array.allRocks.push (rockStar, rockKey, rockSelector);
 
 
 //********************************* Gems to collect *****************************************//
@@ -109,13 +118,11 @@ var Gem = function (x,y, originalPosition, width, height) {
 
 Gem.prototype = Object.create(Entity.prototype);
 
-var allGems = [];
+
 var gem1 = new Gem (620, 440);
 var gem2 = new Gem (120, 275);
 var gem3 = new Gem (420, 25);
-allGems.push(gem1, gem2, gem3);
-
-var collectedGems = []; //coordinate of collected gems
+array.allGems.push(gem1, gem2, gem3);
 
 
 //********************************** Heart: bonus live **************************************//
@@ -141,12 +148,11 @@ Star.prototype = Object.create(Entity.prototype);
 
 //Override the render function
 Star.prototype.render = function() {
-    if (collectedGems.length === 3) {
+    if (array.collectedGems.length === 3) {
         ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
     }
 };
 
-var collectedStar = [];
 var star = new Star (10,10);
 
 
@@ -161,12 +167,11 @@ Selector.prototype = Object.create(Entity.prototype);
 
 //Override the render function
 Selector.prototype.render = function() {
-    if (collectedStar.length > 0) {
+    if (array.collectedStar.length > 0) {
         ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
     }
 };
 
-var selectorCoordinate = []; //save the coordinate once the player reach the selector
 var selector = new Selector (810,660);
 
 
@@ -183,7 +188,7 @@ Key.prototype = Object.create(Entity.prototype);
 
 //Override the render function
 Key.prototype.render = function() {
-    if (selectorCoordinate.length > 0) {
+    if (array.selectorCoordinate.length > 0) {
         ctx.drawImage (Resources.get(this.sprite), this.x, this.y);
     }
 };
@@ -197,7 +202,7 @@ var EnemyLH = function (x,y, originalPosition, width, height) {
     Entity.call (this, x, y, originalPosition);
     this.width = 85;
     this.height = 65;
-    this.speed = Math.floor(Math.random() * 150) + 100;
+    this.speed = Math.floor(Math.random() * 100) + 100;
     this.sprite = 'images/enemy-bug-LH.png';
 };
 
@@ -213,12 +218,11 @@ EnemyLH.prototype.update = function(dt) {
         }
 };
 
-var allEnemies = [];
 var enemy0 = new EnemyLH (400,70);
 var enemy1 = new EnemyLH (0,70);
 var enemy2 = new EnemyLH (0,150);
 var enemy3 = new EnemyLH (0,230);
-allEnemies.push (enemy0, enemy1, enemy2, enemy3);
+array.allEnemies.push (enemy0, enemy1, enemy2, enemy3);
 
 
 //*********************************** Enemies moving right to left **************************//
@@ -248,7 +252,7 @@ var enemy4 = new EnemyRH (900,320);
 var enemy5 = new EnemyRH (900,400);
 var enemy6 = new EnemyRH (900,480);
 var enemy7 = new EnemyRH (400,400);
-allEnemies.push (enemy4, enemy5, enemy6, enemy7);
+array.allEnemies.push (enemy4, enemy5, enemy6, enemy7);
 
 
 //*******************************************************************************************//
@@ -297,7 +301,7 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-/* This function helps during the coding process (keep for reference)*
+/* keep for reference :
 Player.prototype.coordinate = function () {
     console.log (this.x);
     console.log (this.y);
@@ -324,37 +328,37 @@ Player.prototype.update = function(dt) {
     }
 
     //Collide with bugs
-    for (i=0; i < allEnemies.length; i++) {
-        if (this.x < allEnemies[i].x + allEnemies[i].width &&
-            this.x + this.width > allEnemies[i].x &&
-            this.y < allEnemies[i].y + allEnemies[i].height &&
-            this.y + this.height > allEnemies[i].y) {
+    for (i=0; i < array.allEnemies.length; i++) {
+        if (this.x < array.allEnemies[i].x + array.allEnemies[i].width &&
+            this.x + this.width > array.allEnemies[i].x &&
+            this.y < array.allEnemies[i].y + array.allEnemies[i].height &&
+            this.y + this.height > array.allEnemies[i].y) {
                 this.collision();
             }
     }
 
     //Hit the rocks
-    for (i = 0; i < allRocks.length; i++) {
-        if (this.x < allRocks[i].x + allRocks[i].width &&
-            this.x + this.width > allRocks[i].x &&
-            this.y < allRocks[i].y + allRocks[i].height &&
-            this.y + this.height > allRocks[i].y) {
+    for (i = 0; i < array.allRocks.length; i++) {
+        if (this.x < array.allRocks[i].x + array.allRocks[i].width &&
+            this.x + this.width > array.allRocks[i].x &&
+            this.y < array.allRocks[i].y + array.allRocks[i].height &&
+            this.y + this.height > array.allRocks[i].y) {
                 this.x = this.playerPosition[this.playerPosition.length-1][0];
                 this.y = this.playerPosition[this.playerPosition.length-1][1];
         }
     }
 
     //Obtain the Gems
-    for (i = 0; i < allGems.length; i++) {
-        if (this.x < allGems[i].x + allGems[i].width &&
-            this.x + this.width > allGems[i].x &&
-            this.y < allGems[i].y + allGems[i].height &&
-            this.y + this.height > allGems[i].y) {
-                collectedGems.push([allGems[i].x, allGems[i].y]);
-                document.getElementById("gems").innerHTML = "Gems Collected: " + collectedGems.length;
+    for (i = 0; i < array.allGems.length; i++) {
+        if (this.x < array.allGems[i].x + array.allGems[i].width &&
+            this.x + this.width > array.allGems[i].x &&
+            this.y < array.allGems[i].y + array.allGems[i].height &&
+            this.y + this.height > array.allGems[i].y) {
+                array.collectedGems.push([array.allGems[i].x, array.allGems[i].y]);
+                document.getElementById("gems").innerHTML = "Gems Collected: " + array.collectedGems.length;
                 //move the gem out of the canvas to make it disappear
-                allGems[i].x = 1000;
-                allGems[i].y = 1000;
+                array.allGems[i].x = 1000;
+                array.allGems[i].y = 1000;
         }
     }
 
@@ -363,7 +367,7 @@ Player.prototype.update = function(dt) {
             this.x + this.width > star.x &&
             this.y < star.y + star.height &&
             this.y + this.height > star.y) {
-                collectedStar.push([star.x, star.y]);
+                array.collectedStar.push([star.x, star.y]);
                 document.getElementById("star").innerHTML = "Star Collected: Yes!";
                 //move the star out of the canvas to make it disappear
                 star.x = 1000;
@@ -376,7 +380,7 @@ Player.prototype.update = function(dt) {
             this.x + this.width > selector.x &&
             this.y < selector.y + selector.height &&
             this.y + this.height > selector.y) {
-                selectorCoordinate.push([key.x, key.y]);
+                array.selectorCoordinate.push([key.x, key.y]);
                 //move selector out of the canvas to make it disappear
                 selector.x = 1000;
                 selector.y = 1000;
